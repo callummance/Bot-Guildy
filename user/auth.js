@@ -39,5 +39,9 @@ module.exports.loadUsers = () => {
 function addUser(did, user_details) {
     winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
-    fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers));
+    fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
+        if (err) {
+            winston.log("warning", `Failed to save file due to error ${err}`)
+        }
+    });
 }
