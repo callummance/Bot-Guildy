@@ -35,8 +35,7 @@ Facebook account:
 
 ${loginUri}
 
-If you are not a member of our Facebook group but still think you belong here, please message a \
-${module.exports.admin.toString()} member.
+If you are not a member of our Facebook group but still think you belong here, please message an admin.
 Your personal details (with the exception of your Facebook name and id) will not be stored. Have fun and happy memeing!
 
             -Bot Guildy`;
