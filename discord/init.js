@@ -5,6 +5,7 @@ const Promise = require("promise");
 const conf = require("../config/conf");
 const login = require("../user/auth");
 const game = require("./game");
+const interpreter = require("./interpreter");
 
 
 exports.connect = function() {
@@ -61,6 +62,8 @@ Your personal details (with the exception of your Facebook name and id) will not
             -Bot Guildy`;
                 newMember.sendMessage(message);
 
+            } else if (message.cleanContent.charAt(0) == '!'){
+                interpreter.handleCom(message);
             }
         });
     });

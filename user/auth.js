@@ -36,6 +36,10 @@ module.exports.loadUsers = () => {
     registeredUsers = JSON.parse(loaded);
 };
 
+module.exports.getRealName = (id) => {
+    return registeredUsers[id];
+};
+
 function addUser(did, user_details) {
     winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
