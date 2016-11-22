@@ -17,6 +17,7 @@ exports.connect = function() {
         client.on("ready", function() {
             Winston.log("info", "Connected to server!");
             getRoleIds(client);
+            client.user.setAvatar("./images/bot guildy.png");
             resolve(client);
         });
 
