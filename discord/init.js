@@ -27,7 +27,7 @@ exports.connect = function() {
        //When a member joins the server
         client.on("guildMemberAdd", function(newMember) {
             var loginUri = login.getLoginUri(newMember.user.id);
-            var message = `Welcome to the server, ${newMember.nickname}!
+            var message = `Welcome to the server, ${newMember.username}!
 
 Registration and therefore entry into the other channels is currently limited to members of the ICAS Facebook group, in\
 an attempt to prevent spammers from gaining entry. To register, please click on the following link and login to your\
