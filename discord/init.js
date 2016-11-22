@@ -25,7 +25,7 @@ exports.connect = function() {
         });
 
        //When a member joins the server
-        client.on("guildMemberAdd", function(guild, newMember) {
+        client.on("guildMemberAdd", function(newMember) {
             var loginUri = login.getLoginUri(newMember.user.id);
             var message = `Welcome to the server, ${newMember.nickname}!
 
