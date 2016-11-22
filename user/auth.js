@@ -29,9 +29,15 @@ module.exports.processResponse = (did, resp, dClient) => {
 
 module.exports.getLoginUri = (did) => {
     return login.getLoginUri(did);
-}
+};
+
+module.exports.loadUsers = () => {
+    var loaded = fs.readFileSync(conf().App.UserSaveLoc);
+    registeredUsers = JSON.parse(loaded);
+};
 
 function addUser(did, user_details) {
+    winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers));
 }

@@ -5,6 +5,7 @@ const conf = require("./config/conf.js");
 const discord = require("./discord/init");
 const connect = require("./discord/connect");
 const login = require("./facebook/login");
+const auth = require("./user/auth");
 
 // Load user Configuration
 try {
@@ -16,6 +17,9 @@ try {
 
 //Connect to Discord
 var clientPromise = discord.connect();
+
+//Load user list
+auth.loadUsers();
 
 //Start listening on port 8080
 server.startServer(clientPromise);
