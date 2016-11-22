@@ -27,6 +27,9 @@ function findUid(name, client) {
     return new Promise((resolve, reject) => {
         var guild = client.guilds.get(conf().Discord.GuildId);
         var ulist = guild.fetchMembers();
+        if (name.charAt(0) == '@') {
+            name = name.substring(1);
+        }
         ulist.then((guild) => {
             var matches = guild.members.filter((member) => {
                 return member.nickname == name || member.user.username == name;
@@ -36,7 +39,7 @@ function findUid(name, client) {
             } else if (matches.size == 0) {
                 resolve(-1);
             } else {
-                console.log(matches.first().id);
+                Winston.log("info", `Found matching id: ${matches.first().id}`);
                 resolve(matches.first().id);
             }
         });
