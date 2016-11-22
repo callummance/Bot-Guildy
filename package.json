@@ -8,6 +8,7 @@
   "dependencies": {
     "debug": "~2.2.0",
     "discord.js": "^10.0.1",
+    "node-schedule": "^1.2.0",
     "open": "0.0.5",
     "opusscript": "0.0.1",
     "promise": "^7.1.1",

@@ -4,6 +4,7 @@ const Promise = require("promise");
 
 const conf = require("../config/conf");
 const login = require("../user/auth");
+const game = require("./game");
 
 
 exports.connect = function() {
@@ -17,7 +18,9 @@ exports.connect = function() {
         client.on("ready", function() {
             Winston.log("info", "Connected to server!");
             getRoleIds(client);
+
             client.user.setAvatar("./images/bot guildy.png");
+            game.startGameRotate(client);
             resolve(client);
         });
 
