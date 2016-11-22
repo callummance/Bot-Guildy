@@ -1,4 +1,5 @@
 const Promise = require("promise");
+const Winston = require("winston");
 
 const conf = require("../config/conf");
 const auth = require("../user/auth");
@@ -8,6 +9,7 @@ module.exports.handleCom = (message, client) => {
     switch (command.shift()) {
         case "!whois":
             var nick = command.join(' ');
+            Winston.log("info", `Now executing whois query on user ${nick}`)
             findUid(nick, client).then((id) => {
                 if (id === -1) {
                     message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
@@ -34,6 +36,7 @@ function findUid(name, client) {
             } else if (matches.size == 0) {
                 resolve(-1);
             } else {
+                console.log(matches.first().id);
                 resolve(matches.first().id);
             }
         });

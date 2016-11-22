@@ -63,7 +63,8 @@ Your personal details (with the exception of your Facebook name and id) will not
                 newMember.sendMessage(message);
 
             } else if (message.cleanContent.charAt(0) == '!'){
-                interpreter.handleCom(message);
+                Winston.log("info", "Got a command, now executing...")
+                interpreter.handleCom(message, client);
             }
         });
     });
