@@ -6,8 +6,6 @@ const discord = require("./discord/init");
 const connect = require("./discord/connect");
 const login = require("./facebook/login");
 
-winston.level = "silly";
-
 // Load user Configuration
 try {
     conf("./conf.json");
