@@ -6,7 +6,7 @@ var prevLoc;
 var prevConf;
 
 module.exports = function(confLoc) {
-    if ((confLoc == prevLoc) && prevConf) {
+    if ((confLoc == null || confLoc == prevLoc) && prevConf) {
         return prevConf;
     } else {
         winston.log("info", "Now loading user configuration", {

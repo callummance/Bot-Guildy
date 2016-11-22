@@ -1,4 +1,4 @@
-const schedule = require("code-scheduler");
+const schedule = require("node-schedule");
 
 const conf = require("../config/conf");
 
