@@ -37,7 +37,7 @@ module.exports.loadUsers = () => {
 };
 
 module.exports.getRealName = (id) => {
-    return registeredUsers[id];
+    return registeredUsers[id].name;
 };
 
 function addUser(did, user_details) {
