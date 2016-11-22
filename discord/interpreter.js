@@ -3,7 +3,7 @@ const Promise = require("promise");
 const conf = require("../config/conf");
 const auth = require("../user/auth");
 
-modules.exports.handleCom = (message, client) => {
+module.exports.handleCom = (message, client) => {
     var command = message.cleanContent.split(' ');
     switch (command.shift()) {
         case "!whois":
