@@ -36,5 +36,25 @@ const requestHandler = function(req, resp, dClient) {
     
     //Respond to client
     resp.statusCode = 200;
-    resp.end("Done (yay!)");
+    resp.end(`
+<html>
+<head>
+<title>ICAS Discord registration"</title>
+</head>
+
+<body>
+<h1 style = "font-family: sans-serif; text-align: center;">
+We've got your Facebook login, you will recieve confirmation in Discord when we've done processing it.
+</h1>
+<p style = "font-family: sans-serif; text-align: center">
+Here's something to amuse you in the mean-time...
+</p>
+<script>
+window.setTimeout(function() {
+    window.location = "http://hestia.dance";
+}, 7000);
+</script>
+</body>
+</html>`
+    );
 };
