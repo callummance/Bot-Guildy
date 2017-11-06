@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./botguildy.js"
   },
   "dependencies": {
     "debug": "~2.2.0",
