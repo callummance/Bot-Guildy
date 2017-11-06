@@ -71,7 +71,7 @@ Something went wrong, please contact an administrator.
             }
             
         default:
-            winston.log("warning", `No handler exists for request ${path}`)
+            winston.log("warning", `No handler exists for request ${path}`);
             resp.statusCode = 404;
             resp.end("uwotm8");
     }

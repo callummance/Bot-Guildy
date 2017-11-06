@@ -13,7 +13,13 @@ module.exports.registerUser = (client, id) => {
             var rolePromise = user.addRole(disc.member);
             rolePromise.then((role) => {
                 role.sendMessage("You have been registered, have fun!");
+            }, (reason) => {
+                winston.log("warning", `Could not find role ${disc.member}`)
             });
+        }, (reason) => {
+            winston.log("warning", `Could not find user ${id}`)
         });
+    }, (reason) => {
+        winston.log("warning", `User registration failed due to reason ${reason}`);
     });
 };

@@ -28,12 +28,12 @@ function getMemberPage(url, fid, callback) {
                     cachedUsers.append(body.data[i].id);
                 }
                 if (fid == body.data[i].id) {
-                    winston.log("info", `Found user in group: ${fid}`)
+                    winston.log("info", `Found user in group: ${fid}`);
                     callback(true);
                     return;
                 }
             }
-            if ("next" in body.paging){
+            if (body.paging && "next" in body.paging){
                 winston.log("silly", `Got page of users: ${JSON.stringify(body)}`);
                 getMemberPage(body.paging.next, fid, callback);
             } else {

@@ -7,6 +7,11 @@ const connect = require("./discord/connect");
 const login = require("./facebook/login");
 const auth = require("./user/auth");
 
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason.stack);
+    // application specific logging, throwing an error, or other logic here
+});
+
 // Load user Configuration
 try {
     conf("./conf.json");
