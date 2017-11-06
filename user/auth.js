@@ -9,6 +9,7 @@ const conf = require("../config/conf");
 var registeredUsers = {};
 
 module.exports.processResponse = (did, resp, dClient) => {
+    let success = false;
     if ("code" in resp){
         login.upgradeCode(resp.code, did, (access_token) => {
             login.getUserDetails(access_token, did, (user_details) => {
@@ -16,6 +17,7 @@ module.exports.processResponse = (did, resp, dClient) => {
                     if (isValid) {
                         addUser(did, user_details);
                         register.registerUser(dClient, did);
+                        success = true;
                     } else {
                         winston.log("warning", "Unhandled registration failed");
                     }
@@ -23,7 +25,7 @@ module.exports.processResponse = (did, resp, dClient) => {
             });
         });
     }  else {
-        winston.log("warning", `Got a failed signin for uid ${uid}`);
+        winston.log("warning", `Got a failed signin for uid ${did}`);
     }
 };
 

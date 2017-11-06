@@ -27,19 +27,14 @@ const requestHandler = function(req, resp, dClient) {
     var path = uri.pathname.split('/');
     switch (path[1]){
         case "register":
-            winston.log("info", `Got signin response for uid ${path[2]}`)
-            auth.processResponse(path[2], uri.query, dClient);
-            
-        default:
-            winston.log("warning", `No handler exists for request ${path}`)
-    }
-    
-    //Respond to client
-    resp.statusCode = 200;
-    resp.end(`
+            winston.log("info", `Got signin response for uid ${path[2]}`);
+            if (path.length >= 3 && auth.processResponse(path[2], uri.query, dClient)) {
+                //Respond to client
+                resp.statusCode = 200;
+                resp.end(`
 <html>
 <head>
-<title>ICAS Discord registration"</title>
+<title>ICAS Discord registration</title>
 </head>
 
 <body>
@@ -55,6 +50,29 @@ window.setTimeout(function() {
 }, 7000);
 </script>
 </body>
-</html>`
-    );
+</html>`);
+            } else {
+                resp.statusCode = 403;
+                resp.end(`
+<html>
+<head>
+<title>ICAS Discord registration</title>
+</head>
+
+<body>
+<h1 style = "font-family: sans-serif; text-align: center;">
+Oh dear...
+</h1>
+<p style = "font-family: sans-serif; text-align: center">
+Something went wrong, please contact an administrator.
+</p>
+</body>
+</html>`);
+            }
+            
+        default:
+            winston.log("warning", `No handler exists for request ${path}`)
+            resp.statusCode = 404;
+            resp.end("uwotm8");
+    }
 };
