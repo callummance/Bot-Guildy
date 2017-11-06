@@ -36,7 +36,8 @@ client_id=${clientId}\
             winston.log("info", "Got access token from Facebook API. Now calling callback.");
             callback(body.access_token);
         } else {
-            winston.log("error", `Token upgrade failed: response was ${resp} with code ${resp.statusCode} from url ${url}`);
+            var jsonresp = JSON.stringify(resp);
+            winston.log("error", `Token upgrade failed: response was ${jsonresp} with code ${resp.statusCode} from url ${url}`);
         }
     });
 };
@@ -56,4 +57,4 @@ module.exports.getUserDetails = (tok, id, callback) => {
         }
     });
 
-}
+};
