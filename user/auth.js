@@ -14,19 +14,20 @@ module.exports.processResponse = (did, resp, dClient) => {
             login.getUserDetails(access_token, did, (user_details) => {
                 groups.checkUser(user_details.id, access_token, (isValid) => {
                     if (isValid) {
+                        console.log(isValid);
                         addUser(did, user_details);
                         register.registerUser(dClient, did);
-                        return true;
                     } else {
                         winston.log("warning", "Unhandled registration failed");
                     }
                 });
             });
         });
+        return true;
     }  else {
         winston.log("warning", `Got a failed signin for uid ${did}`);
+        return false;
     }
-    return false;
 };
 
 module.exports.getLoginUri = (did) => {

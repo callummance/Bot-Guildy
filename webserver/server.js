@@ -28,7 +28,9 @@ const requestHandler = function(req, resp, dClient) {
     switch (path[1]){
         case "register":
             winston.log("info", `Got signin response for uid ${path[2]}`);
-            if (path.length >= 3 && auth.processResponse(path[2], uri.query, dClient)) {
+            let processResult = auth.processResponse(path[2], uri.query, dClient);
+            console.log("result" + processResult);
+            if (path[2] !== undefined && processResult) {
                 //Respond to client
                 resp.statusCode = 200;
                 resp.end(`
@@ -39,7 +41,7 @@ const requestHandler = function(req, resp, dClient) {
 
 <body>
 <h1 style = "font-family: sans-serif; text-align: center;">
-We've got your Facebook login, you will recieve confirmation in Discord when we've done processing it.
+We've got your Facebook login, you will recieve confirmation in Discord when we're done processing it.
 </h1>
 <p style = "font-family: sans-serif; text-align: center">
 Here's something to amuse you in the mean-time...
