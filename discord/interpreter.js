@@ -9,7 +9,10 @@ module.exports.handleCom = (message, client) => {
     switch (command.shift()) {
         case "!whois":
             var nick = command.join(' ');
-            Winston.log("info", `Now executing whois query on user ${nick}`)
+            Winston.log("info", `Now executing whois query on user ${nick}`);
+            if (nick == "Bot Guildy") {
+                message.channel.sendMessage(`${nick}'s real name is Tail Purple.`)
+            }
             findUid(nick, client).then((id) => {
                 if (id === -1) {
                     message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
