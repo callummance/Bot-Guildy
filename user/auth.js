@@ -51,4 +51,8 @@ module.exports.addUser = (did, user_details) => {
             winston.log("warning", `Failed to save file due to error ${err}`)
         }
     });
-}
+};
+
+module.exports.getUsers = () => {
+  return registeredUsers;
+};

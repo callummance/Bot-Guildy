@@ -74,6 +74,15 @@ module.exports.handleCom = (message, client) => {
                 });
             }
             break;
+        case "!list_users":
+            var roles = Array.from(message.member.roles.values()).map(role => role.name);
+            if (! roles.includes(conf().Discord.AdminRole)) {
+                message.channel.sendMessage("Only committee members are allowed to use this command.")
+                return;
+            }
+            Winston.log("info", "displaying all users in registeredUsers collection");
+            message.channel.sendMessage(JSON.stringify(auth.getUsers(), null, 4));
+            break;
     }
 };
 
