@@ -43,7 +43,7 @@ module.exports.getRealName = (id) => {
     return registeredUsers[id].name;
 };
 
-function addUser(did, user_details) {
+module.exports.addUser = (did, user_details) => {
     winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
