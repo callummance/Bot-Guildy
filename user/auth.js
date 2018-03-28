@@ -56,3 +56,13 @@ module.exports.addUser = (did, user_details) => {
 module.exports.getUsers = () => {
   return registeredUsers;
 };
+
+module.exports.deleteUser = (did) => {
+    winston.log("info", `Deleting discord user ${did}`);
+    delete registeredUsers[did];
+    fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
+        if (err) {
+            winston.log("warning", `Failed to save file due to error ${err}`)
+        }
+    });
+};

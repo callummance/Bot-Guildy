@@ -18,3 +18,11 @@ Examples
 !insert_user covfefe, Donald Trump
 ```
 `list_users` - Lists all registered users
+
+`delete_user` - Deletes a user from the user catalogue.
+
+Examples
+```
+!delete_user @covfefe, Donald Trump
+!delete_user covfefe, Donald Trump
+```
