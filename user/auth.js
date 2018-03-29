@@ -43,7 +43,7 @@ module.exports.getRealName = (id) => {
     return registeredUsers[id].name;
 };
 
-function addUser(did, user_details) {
+module.exports.addUser = (did, user_details) => {
     winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
@@ -51,4 +51,18 @@ function addUser(did, user_details) {
             winston.log("warning", `Failed to save file due to error ${err}`)
         }
     });
-}
+};
+
+module.exports.getUsers = () => {
+  return registeredUsers;
+};
+
+module.exports.deleteUser = (did) => {
+    winston.log("info", `Deleting discord user ${did}`);
+    delete registeredUsers[did];
+    fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
+        if (err) {
+            winston.log("warning", `Failed to save file due to error ${err}`)
+        }
+    });
+};

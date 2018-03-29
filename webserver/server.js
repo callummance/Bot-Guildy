@@ -1,7 +1,3 @@
-/**
- * Created by Callum on 21/11/2016.
- */
-
 const http = require('http');
 const url = require("url");
 const winston = require("winston");
