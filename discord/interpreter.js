@@ -80,7 +80,13 @@ module.exports.handleCom = (message, client) => {
                 return;
             }
             Winston.log("info", "displaying all users in registeredUsers collection");
-            message.channel.sendMessage(JSON.stringify(auth.getUsers(), null, 4));
+            var output = JSON.stringify(auth.getUsers(), null, 4);
+            var DISCORD_TEXT_LIMIT = 2000;
+            while (output.length > DISCORD_TEXT_LIMIT) {
+              message.channel.sendMessage(output.substring(0, DISCORD_TEXT_LIMIT-1));
+              output = output.substring(DISCORD_TEXT_LIMIT);
+            }
+            message.channel.sendMessage(output);
             break;
         case "!delete_user":
             var nick = command.join(' ');
