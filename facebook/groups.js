@@ -40,7 +40,7 @@ function getMemberPage(url, fid, callback) {
                 callback(false);
             }
         } else {
-            winston.log("error", `API request failed: response was ${resp} with code ${resp.statusCode} from url ${url}`);
+            winston.log("error", `API request failed: response was ${JSON.stringify(resp)} with code ${resp.statusCode} from url ${url}`);
             callback(false);
         }
     });
