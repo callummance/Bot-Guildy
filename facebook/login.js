@@ -54,7 +54,8 @@ module.exports.getUserDetails = (tok, id, callback) => {
             winston.log("debug", `recieved ${body.id}`);
             callback(body);
         } else {
-            winston.log("error", `API access failed: response was ${JSON.stringify(resp)} with code ${resp.statusCode} from url ${url}`);
+          var jsonresp = JSON.stringify(resp);
+            winston.log("error", `API access failed: response was ${jsonresp} with code ${resp.statusCode} from url ${url}`);
         }
     });
 
