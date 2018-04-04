@@ -19,7 +19,7 @@ client_id=${clientId}\
 
 module.exports.upgradeCode = (code, uid, callback) => {
     var clientId = conf().Facebook.AppID;
-    var uri = `${conf().Web.Address}:${conf().Web.Port}/register/${uid}`;
+    var uri = `${conf().Web.Address}:${conf().Web.Port}/register`;
     var clientSecret = conf().Facebook.AppSecret;
 
     var url = `https://graph.facebook.com/v2.8/oauth/access_token?\
