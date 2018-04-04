@@ -14,7 +14,7 @@ module.exports.getLoginUri = (uid) => {
 client_id=${clientId}\
 &redirect_uri=${redirectUri}\
 &response_type=code\
-&state={"${uid}"}`;
+&state=${uid}`;
 };
 
 module.exports.upgradeCode = (code, uid, callback) => {
