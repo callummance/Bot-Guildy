@@ -9,11 +9,12 @@ const Promise = require("promise");
 
 module.exports.getLoginUri = (uid) => {
     var clientId = conf().Facebook.AppID;
-    var redirectUri = `${conf().Web.Address}:${conf().Web.Port}/register/${uid}`;
+    var redirectUri = `${conf().Web.Address}:${conf().Web.Port}/register`;
     return `https://www.facebook.com/v2.8/dialog/oauth?\
 client_id=${clientId}\
 &redirect_uri=${redirectUri}\
-&response_type=code`;
+&response_type=code\
+&state={"${uid}"}`;
 };
 
 module.exports.upgradeCode = (code, uid, callback) => {

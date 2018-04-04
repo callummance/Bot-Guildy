@@ -8,9 +8,9 @@ const conf = require("../config/conf");
 
 var registeredUsers = {};
 
-module.exports.processResponse = (did, resp, dClient) => {
+module.exports.processResponse = (resp, dClient) => {
     if ("code" in resp){
-        login.upgradeCode(resp.code, did, (access_token) => {
+        login.upgradeCode(resp.code, resp.state, (access_token) => {
             login.getUserDetails(access_token, did, (user_details) => {
                 groups.checkUser(user_details.id, access_token, (isValid) => {
                     if (isValid) {
