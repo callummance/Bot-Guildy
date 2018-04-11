@@ -25,4 +25,40 @@ Examples
 ```
 !delete_user @covfefe, Donald Trump
 !delete_user covfefe, Donald Trump
+
+```
+
+## Configuration file
+Stored in `config.json`
+
+Example:
+```
+{
+  "App" : {
+    "UserSaveLoc" : "./users.json"
+  },
+
+  "Discord" : {
+    "APIKey" : "The bot's secret token",
+    "GuildId" : "The guild's id",
+    "AdminRole" : "Committee",
+    "MemberRole" : "ICAS Members"
+  },
+
+  "Facebook" : {
+    "AppID" : "",
+    "AppSecret" : "",
+    "GroupId" : ""
+  },
+
+  "Web" : {
+    "Address" : "http://localhost",
+    "Port" : 8080
+  },
+
+  "GamesList" : [
+    
+  ]
+}
+
 ```

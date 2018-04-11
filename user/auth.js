@@ -40,7 +40,9 @@ module.exports.loadUsers = () => {
 };
 
 module.exports.getRealName = (id) => {
-    return registeredUsers[id].name;
+    var user = registeredUsers[id];
+    var name = user ? user.name : "undefined";
+    return name;
 };
 
 module.exports.addUser = (did, user_details) => {
