@@ -3,6 +3,7 @@ const Winston = require("winston");
 
 const conf = require("../config/conf");
 const auth = require("../user/auth");
+const userfunction = require("../user/user");
 
 module.exports.handleCom = (message, client) => {
     var command = message.cleanContent.split(' ');
@@ -29,7 +30,7 @@ module.exports.handleCom = (message, client) => {
         case "!insert_user":
             var roles = Array.from(message.member.roles.values()).map(role => role.name);
             if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage("Only committee members are allowed to use this command.")
+                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} members are allowed to use this command.`)
                 return;
             }
             var params = command.join(' ').split(',');
@@ -57,17 +58,21 @@ module.exports.handleCom = (message, client) => {
                 for (let [id, user] of messageMentions.users) {
                     var user_details = {name: name} ;
                     auth.addUser(id, user_details);
+                    userfunction.addRoleByUserId(conf().Discord.MemberRole, id, client);
                 }
                 message.channel.sendMessage("Command completed.");
             } else {
                 findUid(nick, client).then((id) => {
                     if (id === -1) {
                         message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
+                        return;
                     } else if (id === -2) {
                         message.channel.sendMessage("There were multiple matches for that nickname. Please use the @ mention.");
+                        return;
                     } else {
                         var user_details = {name : name} ;
                         auth.addUser(id, user_details);
+                        userfunction.addRoleByUserId(conf().Discord.MemberRole, id, client);
                         message.channel.sendMessage("Command completed.");
                     }
                 });
@@ -76,7 +81,7 @@ module.exports.handleCom = (message, client) => {
         case "!list_users":
             var roles = Array.from(message.member.roles.values()).map(role => role.name);
             if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage("Only committee members are allowed to use this command.")
+                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                 return;
             }
             Winston.log("info", "displaying all users in registeredUsers collection");
@@ -93,7 +98,7 @@ module.exports.handleCom = (message, client) => {
             nick = nick.trim();
             var roles = Array.from(message.member.roles.values()).map(role => role.name);
             if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage("Only committee members are allowed to use this command.")
+                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                 return;
             }
             Winston.log("info", `About to delete user ${nick}`);
@@ -147,3 +152,4 @@ function findUid(name, client) {
         });
     });
 }
+

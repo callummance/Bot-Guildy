@@ -11,7 +11,9 @@
     "node-schedule": "^1.2.0",
     "open": "0.0.5",
     "opusscript": "0.0.1",
+    "package.json": "^2.0.1",
     "promise": "^7.1.1",
+    "promise-retry": "^1.1.1",
     "request": "^2.79.0",
     "serve-favicon": "~2.3.0",
     "winston": "^2.3.0"
