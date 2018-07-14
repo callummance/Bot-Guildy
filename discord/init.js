@@ -29,15 +29,15 @@ exports.connect = function() {
             var loginUri = login.getLoginUri(newMember.user.id);
             var message = `Welcome to the server, ${newMember.username}!
 
-Registration and therefore entry into the other channels is currently limited to members of the ICAS Facebook group, in\
-an attempt to prevent spammers from gaining entry. To register, please click on the following link and login to your\
-Facebook account:
+To complete your registration into our server please direct message Bot-Guildy with the following
 
-${loginUri}
+!register [Your real name]
 
-If you are not a member of our Facebook group but still think you belong here, please message an admin.
-Your personal details (with the exception of your Facebook name and id) will not be stored. Have fun and happy memeing!
+Once a ${module.exports.admin.toString()} member confirms your identity, you will be given permissions to join the other\
+channels.
 
+If you are not a member of our Facebook group but still think you belong here, please message a \
+${module.exports.admin.toString()} member. Have fun and happy memeing!
             -Bot Guildy`;
             newMember.sendMessage(message);
         });
@@ -48,17 +48,17 @@ Your personal details (with the exception of your Facebook name and id) will not
                 var loginUri = login.getLoginUri(newMember.id);
                 var message = `Welcome to the server, ${newMember.username}!
 
-Registration and therefore entry into the other channels is currently limited to members of the ICAS Facebook group, in\
-an attempt to prevent spammers from gaining entry. To register, please click on the following link and login to your\
-Facebook account:
+To complete your registration into our server please direct message Bot-Guildy with the following
 
-${loginUri}
+!register [Your real name]
+
+Once a committee member confirms your identity, you will be given permissions to join the other \
+channels.
 
 If you are not a member of our Facebook group but still think you belong here, please message a \
-${module.exports.admin.toString()} member.
-Your personal details (with the exception of your Facebook name and id) will not be stored. Have fun and happy memeing!
+${module.exports.admin.toString()} member. Have fun and happy memeing!
 
-            -Bot Guildy`;
+-Bot Guildy`;
                 newMember.sendMessage(message);
 
             } else if (message.cleanContent.charAt(0) == '!'){

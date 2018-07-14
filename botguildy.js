@@ -4,7 +4,6 @@ const server = require("./webserver/server");
 const conf = require("./config/conf.js");
 const discord = require("./discord/init");
 const connect = require("./discord/connect");
-const login = require("./facebook/login");
 const auth = require("./user/auth");
 
 process.on('unhandledRejection', (reason, p) => {
@@ -28,7 +27,6 @@ auth.loadUsers();
 
 //Start listening on port 8080
 server.startServer(clientPromise);
-console.log(login.getLoginUri("1"));
 
 //Connect bot to a server
 clientPromise.done(function(client) {

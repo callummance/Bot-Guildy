@@ -127,6 +127,32 @@ module.exports.handleCom = (message, client) => {
                 });
             }
             break;
+        case "!register":
+            Winston.log("info", "Received register request")
+            var realName = command.join(' ');
+            if (realName === "") {
+                message.channel.sendMessage("Please provide a real name");
+                return;
+            }
+            var blacklist = ["Bot Guildy", "@Bot Guildy"];
+            if (blacklist.includes(nick)) {
+                Winston.log("info", `There was an attempt to register an invalid user: ${nick}`);
+                message.channel.sendMessage(`There was an attempt to add an invalid user: ${nick}`);
+                return;
+            }
+            var channelName = conf().Discord.AdminChannel;
+            findChannel(channelName, client).then((channel) => {
+                if (!channel) {
+                    Winston.log("info", `Could not find channel: ${channelName}`)
+                } else {
+                    Winston.log("info", "Admin channel found. Sending message...")
+                    channel.sendMessage(`New user ${message.author.username} (real name apparently ${realName}) has requested to join the server`);
+                    message.channel.sendMessage(
+`Thanks for registering! A ${conf().Discord.AdminRole} member should review your request shortly.
+If your roles do not change within the next hour, feel free to PM a ${conf().Discord.AdminRole}`);
+                }
+            })
+
     }
 };
 
@@ -150,6 +176,19 @@ function findUid(name, client) {
                 resolve(matches.first().id);
             }
         });
+    });
+}
+
+function findChannel(channelName, client) {
+    Winston.log("info", `Looking for channel: ${channelName}`);
+    return new Promise((resolve, reject) => {
+        var guild = client.guilds.get(conf().Discord.GuildId);
+        var matches = guild.channels.filter(channel => channel.name === channelName);
+        if (matches.size !== 1) {
+            resolve(undefined);
+        } else {
+            resolve(matches.first());
+        }
     });
 }
 
