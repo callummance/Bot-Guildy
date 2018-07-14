@@ -8,14 +8,14 @@ const conf = require("../config/conf");
 
 var registeredUsers = {};
 
-module.exports.processResponse = (did, resp, dClient) => {
-    if ("code" in resp){
-        login.upgradeCode(resp.code, did, (access_token) => {
-            login.getUserDetails(access_token, did, (user_details) => {
+module.exports.processResponse = (resp, dClient) => {
+    if ("code" in resp && "state" in resp){
+        login.upgradeCode(resp.code, resp.state, (access_token) => {
+            login.getUserDetails(access_token, resp.state, (user_details) => {
                 groups.checkUser(user_details.id, access_token, (isValid) => {
                     if (isValid) {
                         console.log(isValid);
-                        addUser(did, user_details);
+                        addUser(resp.state, user_details);
                         register.registerUser(dClient, did);
                     } else {
                         winston.log("warning", "Unhandled registration failed");

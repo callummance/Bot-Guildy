@@ -9,16 +9,17 @@ const Promise = require("promise");
 
 module.exports.getLoginUri = (uid) => {
     var clientId = conf().Facebook.AppID;
-    var redirectUri = `${conf().Web.Address}:${conf().Web.Port}/register/${uid}`;
+    var redirectUri = `${conf().Web.Address}:${conf().Web.Port}/register`;
     return `https://www.facebook.com/v2.8/dialog/oauth?\
 client_id=${clientId}\
 &redirect_uri=${redirectUri}\
-&response_type=code`;
+&response_type=code\
+&state=${uid}`;
 };
 
 module.exports.upgradeCode = (code, uid, callback) => {
     var clientId = conf().Facebook.AppID;
-    var uri = `${conf().Web.Address}:${conf().Web.Port}/register/${uid}`;
+    var uri = `${conf().Web.Address}:${conf().Web.Port}/register`;
     var clientSecret = conf().Facebook.AppSecret;
 
     var url = `https://graph.facebook.com/v2.8/oauth/access_token?\
@@ -53,7 +54,8 @@ module.exports.getUserDetails = (tok, id, callback) => {
             winston.log("debug", `recieved ${body.id}`);
             callback(body);
         } else {
-            winston.log("error", `API access failed: response was ${resp} with code ${resp.statusCode} from url ${url}`);
+          var jsonresp = JSON.stringify(resp);
+            winston.log("error", `API access failed: response was ${jsonresp} with code ${resp.statusCode} from url ${url}`);
         }
     });
 

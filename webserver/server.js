@@ -24,9 +24,9 @@ const requestHandler = function(req, resp, dClient) {
     switch (path[1]){
         case "register":
             winston.log("info", `Got signin response for uid ${path[2]}`);
-            let processResult = auth.processResponse(path[2], uri.query, dClient);
+            let processResult = auth.processResponse(uri.query, dClient);
             console.log("result" + processResult);
-            if (path[2] !== undefined && processResult) {
+            if (undefined && processResult) {
                 //Respond to client
                 resp.statusCode = 200;
                 resp.end(`
@@ -67,7 +67,7 @@ Something went wrong, please contact an administrator.
 </body>
 </html>`);
             }
-            
+
         default:
             winston.log("warning", `No handler exists for request ${path}`);
             resp.statusCode = 404;
