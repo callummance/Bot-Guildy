@@ -26,7 +26,6 @@ exports.connect = function() {
 
        //When a member joins the server
         client.on("guildMemberAdd", function(newMember) {
-            var loginUri = login.getLoginUri(newMember.user.id);
             var message = `Welcome to the server, ${newMember.username}!
 
 To complete your registration into our server please direct message Bot-Guildy with the following
@@ -45,7 +44,6 @@ ${module.exports.admin.toString()} member. Have fun and happy memeing!
         client.on("message", function(message) {
             if (message.cleanContent == "TAIL ON!") {
                 var newMember = message.author;
-                var loginUri = login.getLoginUri(newMember.id);
                 var message = `Welcome to the server, ${newMember.username}!
 
 To complete your registration into our server please direct message Bot-Guildy with the following

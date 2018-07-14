@@ -6,10 +6,6 @@ const conf = require("../config/conf");
 
 var registeredUsers = {};
 
-module.exports.getLoginUri = (did) => {
-    return login.getLoginUri(did);
-};
-
 module.exports.loadUsers = () => {
     var loaded = fs.readFileSync(conf().App.UserSaveLoc);
     registeredUsers = JSON.parse(loaded);
