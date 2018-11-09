@@ -1,20 +1,20 @@
 const http = require('http');
 const url = require("url");
-const winston = require("winston");
+const Logger = require("../logger/logger");
 
 const auth = require("../user/auth");
 const conf = require("../config/conf");
 
 module.exports.startServer = function(dClient) {
-    winston.log("debug", "Creating server object...");
+    Logger.log("debug", "Creating server object...");
     const server = http.createServer((req, res) => {requestHandler(req, res, dClient);});
 
     server.listen(conf().Web.Port, (err) => {
         if (err) {
-            winston.log("error", "Could not start listening for connections due to error " + err);
+            Logger.log("error", "Could not start listening for connections due to error " + err);
             return err
         }
-        winston.log("info", `server is listening on port ${conf().Web.Port}`)
+        Logger.log("info", `server is listening on port ${conf().Web.Port}`)
     });
 };
 
@@ -23,7 +23,7 @@ const requestHandler = function(req, resp, dClient) {
     var path = uri.pathname.split('/');
     switch (path[1]){
         default:
-            winston.log("warning", `No handler exists for request ${path}`);
+            Logger.log("warning", `No handler exists for request ${path}`);
             resp.statusCode = 404;
             resp.end("uwotm8");
     }

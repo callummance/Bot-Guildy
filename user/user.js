@@ -1,4 +1,4 @@
-const winston = require("winston");
+const Logger = require("../logger/logger");
 const fs = require("fs");
 const promiseRetry = require("promise-retry");
 
@@ -15,10 +15,10 @@ module.exports.addRoleByUserId = (rolename, id, client) => {
           promiseRetry(function(retry, number) {
 
           return member.addRole(role.id)
-                    .then( (result) => winston.log("info", `Gave user ${member.user.username} the role ${rolename}`),
-                           (err) => { winston.log("info", "Could not assign role"); retry(err);} );
+                    .then( (result) => Logger.log("info", `Gave user ${member.user.username} the role ${rolename}`),
+                           (err) => { Logger.log("info", "Could not assign role"); retry(err);} );
           }, {retries: MAX_RETRIES})
-          .catch((err) => winston.log("info", err));
+          .catch((err) => Logger.log("info", err));
         }
     });
 };

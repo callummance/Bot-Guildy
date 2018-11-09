@@ -1,5 +1,5 @@
 const Promise = require("promise");
-const Winston = require("winston");
+const Logger = require("../logger/logger");
 
 const conf = require("../config/conf");
 const auth = require("../user/auth");
@@ -11,7 +11,7 @@ module.exports.handleCom = (message, client) => {
     switch (op) {
         case "!whois":
             var nick = command.join(' ');
-            Winston.log("info", `Now executing whois query on user ${nick}`);
+            Logger.log("info", `Now executing whois query on user ${nick}`);
             if (nick == "Bot Guildy") {
                 message.channel.sendMessage(`${nick}'s real name is Tail Purple.`)
                 return;
@@ -43,15 +43,15 @@ module.exports.handleCom = (message, client) => {
             name = name.trim();
             var blacklist = ["Bot Guildy", "@Bot Guildy"];
             if (blacklist.includes(nick)) {
-                Winston.log("info", `There was an attempt to add an invalid user: ${nick}`);
+                Logger.log("info", `There was an attempt to add an invalid user: ${nick}`);
                 message.channel.sendMessage(`There was an attempt to add an invalid user: ${nick}`);
                 return;
             }
-            Winston.log("info", `Now attempting to insert new user ${nick}`);
+            Logger.log("info", `Now attempting to insert new user ${nick}`);
             if (message.mentions.users.size > 0) {
                 var messageMentions = message.mentions;
                 if (messageMentions.users.size > 1) {
-                    Winston.log("info", "Too many users mentioned.")
+                    Logger.log("info", "Too many users mentioned.")
                     message.channel.sendMessage("Please only supply one user.")
                     return;
                 }
@@ -84,7 +84,7 @@ module.exports.handleCom = (message, client) => {
                 message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                 return;
             }
-            Winston.log("info", "displaying all users in registeredUsers collection");
+            Logger.log("info", "displaying all users in registeredUsers collection");
             var output = JSON.stringify(auth.getUsers(), null, 4);
             var DISCORD_TEXT_LIMIT = 2000;
             while (output.length > DISCORD_TEXT_LIMIT) {
@@ -101,11 +101,11 @@ module.exports.handleCom = (message, client) => {
                 message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                 return;
             }
-            Winston.log("info", `About to delete user ${nick}`);
+            Logger.log("info", `About to delete user ${nick}`);
             if (message.mentions.users.size > 0) {
                 var messageMentions = message.mentions;
                 if (messageMentions.users.size > 1) {
-                    Winston.log("info", "Too many users mentioned.")
+                    Logger.log("info", "Too many users mentioned.")
                     message.channel.sendMessage("Please only supply one user.")
                     return;
                 }
@@ -128,25 +128,30 @@ module.exports.handleCom = (message, client) => {
             }
             break;
         case "!register":
-            Winston.log("info", "Received register request")
-            var realName = command.join(' ');
+            Logger.log("info", "Received register request")
+            var params = command.join(' ').split(',');
+            var realName = params[0];
+            var identification = "";
+            if (params.length > 1) {
+                identification = params[1];
+            }
             if (realName === "") {
                 message.channel.sendMessage("Please provide a real name");
                 return;
             }
             var blacklist = ["Bot Guildy", "@Bot Guildy"];
             if (blacklist.includes(nick)) {
-                Winston.log("info", `There was an attempt to register an invalid user: ${nick}`);
+                Logger.log("info", `There was an attempt to register an invalid user: ${nick}`);
                 message.channel.sendMessage(`There was an attempt to add an invalid user: ${nick}`);
                 return;
             }
             var channelName = conf().Discord.AdminChannel;
             findChannel(channelName, client).then((channel) => {
                 if (!channel) {
-                    Winston.log("info", `Could not find channel: ${channelName}`)
+                    Logger.log("info", `Could not find channel: ${channelName}`)
                 } else {
-                    Winston.log("info", "Admin channel found. Sending message...")
-                    channel.sendMessage(`New user ${message.author.username} (real name apparently ${realName}) has requested to join the server`);
+                    Logger.log("info", "Admin channel found. Sending message...")
+                    channel.sendMessage(`New user ${message.author.username} (real name apparently ${realName}, identification provided: ${identification}) has requested to join the server`);
                     message.channel.sendMessage(
 `Thanks for registering! A ${conf().Discord.AdminRole} member should review your request shortly.
 If your roles do not change within the next hour, feel free to PM a ${conf().Discord.AdminRole}`);
@@ -172,7 +177,7 @@ function findUid(name, client) {
             } else if (matches.size == 0) {
                 resolve(-1);
             } else {
-                Winston.log("info", `Found matching id: ${matches.first().id}`);
+                Logger.log("info", `Found matching id: ${matches.first().id}`);
                 resolve(matches.first().id);
             }
         });
@@ -180,7 +185,7 @@ function findUid(name, client) {
 }
 
 function findChannel(channelName, client) {
-    Winston.log("info", `Looking for channel: ${channelName}`);
+    Logger.log("info", `Looking for channel: ${channelName}`);
     return new Promise((resolve, reject) => {
         var guild = client.guilds.get(conf().Discord.GuildId);
         var matches = guild.channels.filter(channel => channel.name === channelName);

@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const Winston = require("winston");
+const Logger = require("../logger/logger");
 const Promise = require("promise");
 
 const conf = require("../config/conf");
@@ -12,60 +12,53 @@ exports.connect = function() {
     return new Promise(function (resolve, reject) {
         const client = new Discord.Client();
 
-        Winston.log("info", "Connecting to Discord...");
+        Logger.log("info", "Connecting to Discord...");
         client.login(conf().Discord.APIKey);
 
         //Setting up initial connection
         client.on("ready", function() {
-            Winston.log("info", "Connected to server!");
+            Logger.log("info", "Connected to server!");
             getRoleIds(client);
-            client.user.setAvatar("./images/bot guildy.png");
+            client.user.setAvatar("./images/bot guildy.png")
+                .catch((err) => {
+                    Logger.log("error", "Failed to set Avatar.")
+                });
             game.startGameRotate(client);
             resolve(client);
         });
 
        //When a member joins the server
         client.on("guildMemberAdd", function(newMember) {
-            var message = `Welcome to the server, ${newMember.username}!
-
-To complete your registration into our server please direct message Bot-Guildy with the following
-
-!register [Your real name]
-
-Once a ${module.exports.admin.toString()} member confirms your identity, you will be given permissions to join the other\
-channels.
-
-If you are not a member of our Facebook group but still think you belong here, please message a \
-${module.exports.admin.toString()} member. Have fun and happy memeing!
-            -Bot Guildy`;
-            newMember.sendMessage(message);
+            newMember.sendMessage(welcomeMessage(newMember));
         });
 
+        //When a member messages bot
         client.on("message", function(message) {
             if (message.cleanContent == "TAIL ON!") {
                 var newMember = message.author;
-                var message = `Welcome to the server, ${newMember.username}!
-
-To complete your registration into our server please direct message Bot-Guildy with the following
-
-!register [Your real name]
-
-Once a committee member confirms your identity, you will be given permissions to join the other \
-channels.
-
-If you are not a member of our Facebook group but still think you belong here, please message a \
-${module.exports.admin.toString()} member. Have fun and happy memeing!
-
--Bot Guildy`;
-                newMember.sendMessage(message);
+                newMember.sendMessage(welcomeMessage(newMember));
 
             } else if (message.cleanContent.charAt(0) == '!'){
-                Winston.log("info", "Got a command, now executing...")
+                Logger.log("info", "Got a command, now executing...")
                 interpreter.handleCom(message, client);
             }
         });
     });
 };
+
+function welcomeMessage(newMember) {
+    return `Welcome to the server, ${newMember.username}!
+
+To complete your registration into our server please direct message Bot-Guildy with the following
+
+!register [Your real name], [Some form of identification e.g. ${conf().Verification.join()}]
+
+Once a ${module.exports.admin.toString()} member confirms your identity, you will be given permissions to join the other\
+channels. 
+
+If your roles do not change within the hour, feel free to message a ${module.exports.admin.toString()} member.
+            -Bot Guildy`;
+}
 
 function getRoleIds(client) {
     var roles = client.guilds.get(conf().Discord.GuildId).roles;
@@ -77,15 +70,15 @@ function getRoleIds(client) {
     });
 
     if (memberRoles.length != 1) {
-        Winston.log("error", `MemberRole setting matches incorrect number of roles: ${JSON.stringify(memberRoles)}`);
+        Logger.log("error", `MemberRole setting matches incorrect number of roles: ${JSON.stringify(memberRoles)}`);
         process.exit(-1);
     } else {
-        module.exports.member = memberRoles[0];
+        module.exports.member = memberRoles[0].name;
     }
     if (adminRoles.length != 1) {
-        Winston.log("error", `AdminRole setting matches incorrect number of roles: ${JSON.stringify(adminRoles)}`);
+        Logger.log("error", `AdminRole setting matches incorrect number of roles: ${JSON.stringify(adminRoles)}`);
         process.exit(-1);
     } else {
-        module.exports.admin = adminRoles[0];
+        module.exports.admin = adminRoles[0].name;
     }
 }

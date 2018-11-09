@@ -45,6 +45,10 @@ Example:
     "MemberRole" : "ICAS Members"
   },
 
+  "Verification": [
+    "Your driving licence"
+  ],
+
   "Facebook" : {
     "AppID" : "",
     "AppSecret" : "",

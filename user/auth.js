@@ -1,4 +1,4 @@
-const winston = require("winston");
+const Logger = require("../logger/logger");
 const fs = require("fs");
 
 const register = require("../discord/register");
@@ -18,11 +18,11 @@ module.exports.getRealName = (id) => {
 };
 
 module.exports.addUser = (did, user_details) => {
-    winston.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
+    Logger.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
         if (err) {
-            winston.log("warning", `Failed to save file due to error ${err}`)
+            Logger.log("warning", `Failed to save file due to error ${err}`)
         }
     });
 };
@@ -32,11 +32,11 @@ module.exports.getUsers = () => {
 };
 
 module.exports.deleteUser = (did) => {
-    winston.log("info", `Deleting discord user ${did}`);
+    Logger.log("info", `Deleting discord user ${did}`);
     delete registeredUsers[did];
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
         if (err) {
-            winston.log("warning", `Failed to save file due to error ${err}`)
+            Logger.log("warning", `Failed to save file due to error ${err}`)
         }
     });
 };

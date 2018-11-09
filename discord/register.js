@@ -1,4 +1,4 @@
-const winston = require("winston");
+const Logger = require("../logger/logger");
 
 const conf = require("../config/conf");
 const disc = require("./init.js");
@@ -6,7 +6,7 @@ const disc = require("./init.js");
 
 
 module.exports.registerUser = (client, id) => {
-    winston.log("info", `Now registering user ${id}`);
+    Logger.log("info", `Now registering user ${id}`);
     client.then((client) => {
         var userPromise = client.guilds.get(conf().Discord.GuildId).fetchMember(id);
         userPromise.then((user) => {
@@ -14,12 +14,12 @@ module.exports.registerUser = (client, id) => {
             rolePromise.then((role) => {
                 role.sendMessage("You have been registered, have fun!");
             }, (reason) => {
-                winston.log("warning", `Could not find role ${disc.member}`)
+                Logger.log("warning", `Could not find role ${disc.member}`)
             });
         }, (reason) => {
-            winston.log("warning", `Could not find user ${id}`)
+            Logger.log("warning", `Could not find user ${id}`)
         });
     }, (reason) => {
-        winston.log("warning", `User registration failed due to reason ${reason}`);
+        Logger.log("warning", `User registration failed due to reason ${reason}`);
     });
 };
