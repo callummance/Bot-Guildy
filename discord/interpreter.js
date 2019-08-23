@@ -4,6 +4,7 @@ const Logger = require("../logger/logger");
 const conf = require("../config/conf");
 const auth = require("../user/auth");
 const userfunction = require("../user/user");
+const Discord = require("discord.js");
 
 module.exports.handleCom = (message, client) => {
     var command = message.cleanContent.split(' ');
@@ -28,10 +29,13 @@ module.exports.handleCom = (message, client) => {
             });
             break;
         case "!insert_user":
-            var roles = Array.from(message.member.roles.values()).map(role => role.name);
-            if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} members are allowed to use this command.`)
-                return;
+            var guildMember = message.member;
+            var roles = Array.from(guildMember.roles.values()).map(role => role.name);
+            if (! (roles.includes(conf().Discord.AdminRole) ||
+                guildMember.hasPermissions("MANAGE_GUILD") ||
+                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                    message.channel.sendMessage(`Only ${conf().Discord.AdminRole} members or server managers are allowed to use this command.`)
+                    return;
             }
             var params = command.join(' ').split(',');
             if (params.length !== 2) {
@@ -79,10 +83,13 @@ module.exports.handleCom = (message, client) => {
             }
             break;
         case "!list_users":
-            var roles = Array.from(message.member.roles.values()).map(role => role.name);
-            if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
-                return;
+            var guildMember = message.member;
+            var roles = Array.from(guildMember.roles.values()).map(role => role.name);
+            if (! (roles.includes(conf().Discord.AdminRole) ||
+                guildMember.hasPermissions("MANAGE_GUILD") ||
+                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                    message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
+                    return;
             }
             Logger.log("info", "displaying all users in registeredUsers collection");
             var output = JSON.stringify(auth.getUsers(), null, 4);
@@ -96,10 +103,13 @@ module.exports.handleCom = (message, client) => {
         case "!delete_user":
             var nick = command.join(' ');
             nick = nick.trim();
-            var roles = Array.from(message.member.roles.values()).map(role => role.name);
-            if (! roles.includes(conf().Discord.AdminRole)) {
-                message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
-                return;
+            var guildMember = message.member;
+            var roles = Array.from(guildMember.roles.values()).map(role => role.name);
+            if (! (roles.includes(conf().Discord.AdminRole) ||
+                guildMember.hasPermissions("MANAGE_GUILD") ||
+                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                    message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
+                    return;
             }
             Logger.log("info", `About to delete user ${nick}`);
             if (message.mentions.users.size > 0) {
