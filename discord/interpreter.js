@@ -32,8 +32,8 @@ module.exports.handleCom = (message, client) => {
             var guildMember = message.member;
             var roles = Array.from(guildMember.roles.values()).map(role => role.name);
             if (! (roles.includes(conf().Discord.AdminRole) ||
-                guildMember.hasPermissions("MANAGE_GUILD") ||
-                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                guildMember.hasPermission("MANAGE_GUILD") ||
+                guildMember.hasPermission("ADMINISTRATOR"))) {
                     message.channel.sendMessage(`Only ${conf().Discord.AdminRole} members or server managers are allowed to use this command.`)
                     return;
             }
@@ -86,8 +86,8 @@ module.exports.handleCom = (message, client) => {
             var guildMember = message.member;
             var roles = Array.from(guildMember.roles.values()).map(role => role.name);
             if (! (roles.includes(conf().Discord.AdminRole) ||
-                guildMember.hasPermissions("MANAGE_GUILD") ||
-                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                guildMember.hasPermission("MANAGE_GUILD") ||
+                guildMember.hasPermission("ADMINISTRATOR"))) {
                     message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                     return;
             }
@@ -106,8 +106,8 @@ module.exports.handleCom = (message, client) => {
             var guildMember = message.member;
             var roles = Array.from(guildMember.roles.values()).map(role => role.name);
             if (! (roles.includes(conf().Discord.AdminRole) ||
-                guildMember.hasPermissions("MANAGE_GUILD") ||
-                guildMember.hasPermissions("ADMINISTRATOR"))) {
+                guildMember.hasPermission("MANAGE_GUILD") ||
+                guildMember.hasPermission("ADMINISTRATOR"))) {
                     message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
                     return;
             }
