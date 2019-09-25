@@ -19,10 +19,6 @@ exports.connect = function() {
         client.on("ready", function() {
             Logger.log("info", "Connected to server!");
             getRoleIds(client);
-            client.user.setAvatar("./images/bot guildy.png")
-                .catch((err) => {
-                    Logger.log("error", "Failed to set Avatar.")
-                });
             game.startGameRotate(client);
             resolve(client);
         });
