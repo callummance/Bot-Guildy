@@ -30,7 +30,7 @@ exports.connect = function() {
 
         //When a member messages bot
         client.on("message", function(message) {
-            if (message.cleanContent == "TAIL ON!") {
+            if (message.cleanContent == "HAKASE HAKASE HAKASE!") {
                 var newMember = message.author;
                 newMember.sendMessage(welcomeMessage(newMember));
 

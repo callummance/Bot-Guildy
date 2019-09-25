@@ -6,6 +6,8 @@ const auth = require("../user/auth");
 const userfunction = require("../user/user");
 const Discord = require("discord.js");
 
+const USER_NOT_FOUND_MESSAGE = "Hakase couldn't find such a user with that nickname! Hakase will have to ask Nano about it when she gets home!";
+
 module.exports.handleCom = (message, client) => {
     var command = message.cleanContent.split(' ');
     var op = command.shift();
@@ -19,7 +21,9 @@ module.exports.handleCom = (message, client) => {
             }
             findUid(nick, client).then((id) => {
                 if (id === -1) {
-                    message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
+                    message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
+                    message.channel.sendFile("images/hakase_sad.gif")
+                        .catch(error => Logger.log("Unable to find image to send"));
                 } else if (id === -2) {
                     message.channel.sendMessage("There were multiple matches for that nickname. This is disconcerting.");
                 } else {
@@ -68,7 +72,7 @@ module.exports.handleCom = (message, client) => {
             } else {
                 findUid(nick, client).then((id) => {
                     if (id === -1) {
-                        message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
+                        message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
                         return;
                     } else if (id === -2) {
                         message.channel.sendMessage("There were multiple matches for that nickname. Please use the @ mention.");
@@ -127,7 +131,7 @@ module.exports.handleCom = (message, client) => {
             } else {
                 findUid(nick, client).then((id) => {
                     if (id === -1) {
-                        message.channel.sendMessage("I couldn't find such a user. You clearly don't love twintails enough.");
+                        message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
                     } else if (id === -2) {
                         message.channel.sendMessage("There were multiple matches for that nickname. Please use the @ mention.");
                     } else {
@@ -178,6 +182,7 @@ function findUid(name, client) {
         if (name.charAt(0) == '@') {
             name = name.substring(1);
         }
+        Logger.log(`Searching for ${name}`)
         ulist.then((guild) => {
             var matches = guild.members.filter((member) => {
                 return member.nickname == name || member.user.username == name;
