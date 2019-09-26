@@ -30,7 +30,7 @@ exports.connect = function() {
 
         //When a member messages bot
         client.on("message", function(message) {
-            if (message.cleanContent.includes("HAKASE HAKASE HAKASE")) {
+            if (message.cleanContent.startsWith("HAKASE HAKASE HAKASE")) {
                 if (message.channel.type == "dm") {
                     var newMember = message.author;
                     newMember.sendMessage(welcomeMessage(newMember));
@@ -48,7 +48,7 @@ exports.connect = function() {
 function welcomeMessage(newMember) {
     return `Welcome to the server, ${newMember.username}!
 
-To complete your registration into our server please direct message Bot-Guildy with the following
+To complete your registration into our server please direct message Hakase with the following
 
 !register [Your real name], [Some form of identification e.g. ${conf().Verification.join()}]
 
