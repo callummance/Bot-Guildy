@@ -33,6 +33,7 @@ module.exports.handleCom = (message, client) => {
                 }
             });
             break;
+        case "!insertuser":
         case "!insert_user":
             var guildMember = message.member;
             var roles = Array.from(guildMember.roles.values()).map(role => role.name);

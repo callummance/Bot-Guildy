@@ -9,6 +9,8 @@ const Discord = require("discord.js");
 module.exports.interpretHakaseQuery = (client, message) => {
     if (message.cleanContent == "meow") {
         message.channel.sendMessage("https://tinyurl.com/y2mlo33q");
+    } else if (message.cleanContent == "dance") {
+        message.channel.sendMessage("https://tinyurl.com/yyulqpeg");
     } else {
         message.channel.sendMessage("Sorry Hakase is busy right now. Go ask Nano instead.");
     }
