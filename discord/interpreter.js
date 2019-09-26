@@ -175,7 +175,7 @@ If your roles do not change within the next hour, feel free to PM a ${conf().Dis
             break;
         case "!HAKASE":
             message.channel.sendMessage(`What is it?`).then(() => {
-                message.channel.awaitMessages(m => m.author.id === message.author.id, { maxMatches: 1, time: 5000, errors: ['time'] })
+                message.channel.awaitMessages(m => m.author.id === message.author.id, { maxMatches: 1, time: 10000, errors: ['time'] })
                 .then(collected => {
                     hakase.interpretHakaseQuery(client, collected.first());
                 })

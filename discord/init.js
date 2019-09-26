@@ -35,7 +35,7 @@ exports.connect = function() {
                     var newMember = message.author;
                     newMember.sendMessage(welcomeMessage(newMember));
                 } else {
-                    hakase.interpretHakaseQuery(client, message);
+                    message.channel.sendMessage("https://tinyurl.com/y3os3kk3");
                 }
             } else if (message.cleanContent.charAt(0) == '!'){
                 Logger.log("info", "Got a command, now executing...")
