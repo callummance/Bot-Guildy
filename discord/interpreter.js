@@ -5,6 +5,7 @@ const conf = require("../config/conf");
 const auth = require("../user/auth");
 const userfunction = require("../user/user");
 const Discord = require("discord.js");
+const hakase = require("./hakase_responses");
 
 const USER_NOT_FOUND_MESSAGE = "Hakase couldn't find such a user with that nickname! Hakase will have to ask Nano about it when she gets home!";
 
@@ -170,8 +171,19 @@ module.exports.handleCom = (message, client) => {
 `Thanks for registering! A ${conf().Discord.AdminRole} member should review your request shortly.
 If your roles do not change within the next hour, feel free to PM a ${conf().Discord.AdminRole}`);
                 }
-            })
-
+            });
+            break;
+        case "!HAKASE":
+            message.channel.sendMessage(`What is it?`).then(() => {
+                message.channel.awaitMessages(m => m.author.id === message.author.id, { maxMatches: 1, time: 5000, errors: ['time'] })
+                .then(collected => {
+                    hakase.interpretHakaseQuery(client, collected.first());
+                })
+                .catch(error => {
+                    message.channel.sendMessage("Hmph! Don't call me if you don't need me!");
+                });
+            });
+            break;
     }
 };
 

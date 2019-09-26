@@ -6,7 +6,7 @@ const conf = require("../config/conf");
 const login = require("../user/auth");
 const game = require("./game");
 const interpreter = require("./interpreter");
-
+const hakase = require("./hakase_responses");
 
 exports.connect = function() {
     return new Promise(function (resolve, reject) {
@@ -30,10 +30,13 @@ exports.connect = function() {
 
         //When a member messages bot
         client.on("message", function(message) {
-            if (message.cleanContent == "HAKASE HAKASE HAKASE!") {
-                var newMember = message.author;
-                newMember.sendMessage(welcomeMessage(newMember));
-
+            if (message.cleanContent.includes("HAKASE HAKASE HAKASE")) {
+                if (message.channel.type == "dm") {
+                    var newMember = message.author;
+                    newMember.sendMessage(welcomeMessage(newMember));
+                } else {
+                    hakase.interpretHakaseQuery(client, message);
+                }
             } else if (message.cleanContent.charAt(0) == '!'){
                 Logger.log("info", "Got a command, now executing...")
                 interpreter.handleCom(message, client);
