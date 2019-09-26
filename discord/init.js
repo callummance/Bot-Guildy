@@ -56,7 +56,7 @@ Once a ${module.exports.admin.toString()} member confirms your identity, you wil
 channels. 
 
 If your roles do not change within the hour, feel free to message a ${module.exports.admin.toString()} member.
-            -Bot Guildy`;
+- Hakase`;
 }
 
 function getRoleIds(client) {
