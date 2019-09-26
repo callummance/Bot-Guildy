@@ -11,6 +11,8 @@ module.exports.interpretHakaseQuery = (client, message) => {
         message.channel.sendMessage("https://tinyurl.com/y2mlo33q");
     } else if (message.cleanContent == "dance") {
         message.channel.sendMessage("https://tinyurl.com/yyulqpeg");
+    } else if (message.cleanContent == "shark") {
+        message.channel.sendMessage("https://tinyurl.com/yybbw6au");
     } else {
         message.channel.sendMessage("Sorry Hakase is busy right now. Go ask Nano instead.");
     }
