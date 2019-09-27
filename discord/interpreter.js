@@ -17,7 +17,10 @@ module.exports.handleCom = (message, client) => {
             var nick = command.join(' ');
             Logger.log("info", `Now executing whois query on user ${nick}`);
             if (nick == "Bot Guildy") {
-                message.channel.sendMessage(`${nick}'s real name is Tail Purple.`)
+                message.channel.sendMessage(`We don't speak of the dead.`)
+                return;
+            } else if (nick == "Hakase") {
+                message.channel.sendMessage("https://tinyurl.com/y4ajka9t");
                 return;
             }
             findUid(nick, client).then((id) => {
