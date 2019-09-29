@@ -23,8 +23,8 @@ module.exports.interpretHakaseQuery = (client, message) => {
         }
     } else {
         Logger.log("info", "Received unknown request. Searching Gfycat...");
-        let urlQuery = encodeURI(message);
-        request('https://api.gfycat.com/v1/gfycats/search?search_text='+urlQuery, { json: true }, (err, res, body) => {
+        let urlQuery = encodeURI("anime " + message);
+        request('https://api.gfycat.com/v1/gfycats/search?search_text=' + urlQuery, { json: true }, (err, res, body) => {
             if (err) {
                 Logger.warn(err);
                 message.channel.sendMessage("Sorry Hakase is busy right now. Go ask Nano instead.");
@@ -38,7 +38,7 @@ module.exports.interpretHakaseQuery = (client, message) => {
                 }
             }
         });
-        
+
     }
 }
 
