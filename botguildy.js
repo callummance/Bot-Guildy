@@ -16,7 +16,7 @@ process.on('unhandledRejection', (reason, p) => {
 try {
     conf("./conf.json");
 } catch (err) {
-    winston.log("error", err);
+    winston.log("error", JSON.stringify(JSON.parse(err.response.text), null, 2));
     process.exit(-1);
 }
 

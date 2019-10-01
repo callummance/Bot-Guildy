@@ -5,7 +5,7 @@ const promiseRetry = require("promise-retry");
 const conf = require("../config/conf");
 
 module.exports.addRoleByUserId = (rolename, id, client) => {
-  var MAX_RETRIES = 5;
+  var MAX_RETRIES = 3;
   var role = getRoleByName(rolename, client);
   client.guilds.get(conf().Discord.GuildId).fetchMember(id)
     .then((member) => {
@@ -13,12 +13,16 @@ module.exports.addRoleByUserId = (rolename, id, client) => {
         if (!roles.includes(rolename)) {
 
           promiseRetry(function(retry, number) {
-
-          return member.addRole(role.id)
-                    .then( (result) => Logger.log("info", `Gave user ${member.user.username} the role ${rolename}`),
-                           (err) => { Logger.log("info", "Could not assign role"); retry(err);} );
-          }, {retries: MAX_RETRIES})
-          .catch((err) => Logger.log("info", err));
+            return member.addRole(role.id)
+                      .then( (result) => Logger.log("info", `Gave user ${member.user.username} the role ${rolename}`),
+                            (err) => {
+                                Logger.log("info", "Could not assign role");
+                                retry(err);
+                              } 
+                            );
+            }, {retries: MAX_RETRIES})  
+          .catch((err) => Logger.log("info", JSON.stringify(JSON.parse(err.response.text), null, 2))
+          );
         }
     });
 };
