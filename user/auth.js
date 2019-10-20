@@ -18,7 +18,7 @@ module.exports.getRealName = (id) => {
 };
 
 module.exports.addUser = (did, user_details) => {
-    Logger.log("info", `Associating discord user ${did} with fb user ${JSON.stringify(user_details)}`);
+    Logger.log("info", `Associating discord user ${did} with details ${JSON.stringify(user_details)}`);
     registeredUsers[did] = user_details;
     fs.writeFile(conf().App.UserSaveLoc, JSON.stringify(registeredUsers), (err) => {
         if (err) {

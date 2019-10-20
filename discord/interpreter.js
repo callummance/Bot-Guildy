@@ -27,7 +27,7 @@ module.exports.handleCom = (message, client) => {
                 if (id === -1) {
                     message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
                     message.channel.sendFile("images/hakase_sad.gif")
-                        .catch(error => Logger.log("Unable to find image to send"));
+                        .catch(error => Logger.log("info", "Unable to find image to send"));
                 } else if (id === -2) {
                     message.channel.sendMessage("There were multiple matches for that nickname. This is disconcerting.");
                 } else {
@@ -188,6 +188,19 @@ If your roles do not change within the next hour, feel free to PM a ${conf().Dis
                 });
             });
             break;
+        case "!fetch_users_json":
+            var guildMember = message.member;
+            var roles = Array.from(guildMember.roles.values()).map(role => role.name);
+            if (! (roles.includes(conf().Discord.AdminRole) ||
+                guildMember.hasPermission("MANAGE_GUILD") ||
+                guildMember.hasPermission("ADMINISTRATOR"))) {
+                    message.channel.sendMessage(`Only ${conf().Discord.AdminRole} allowed to use this command.`)
+                    return;
+            }
+            Logger.log("info", "uploading users.json");
+            message.channel.sendFile("users.json")
+                .catch(error => Logger.log("info", "Unable to upload users.json"));
+            break;
     }
 };
 
@@ -198,7 +211,7 @@ function findUid(name, client) {
         if (name.charAt(0) == '@') {
             name = name.substring(1);
         }
-        Logger.log(`Searching for ${name}`)
+        Logger.log("info", `Searching for ${name}`)
         ulist.then((guild) => {
             var matches = guild.members.filter((member) => {
                 return member.nickname == name || member.user.username == name;

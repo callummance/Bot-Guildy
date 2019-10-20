@@ -21,6 +21,8 @@ Examples
 
 `delete_user` - Deletes a user from the user catalogue.
 
+`fetch_users_json` - Sends the user.json file.
+
 Examples
 ```
 !delete_user @covfefe, Donald Trump
