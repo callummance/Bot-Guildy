@@ -16,11 +16,16 @@ module.exports.handleCom = (message, client) => {
         case "!whois":
             var nick = command.join(' ');
             Logger.log("info", `Now executing whois query on user ${nick}`);
+            var hakaseRegex = /@?(h|H)akase$/;
+            var nanoRegex = /(n|N)ano$/
             if (nick == "Bot Guildy") {
                 message.channel.sendMessage(`We don't speak of the dead.`)
                 return;
-            } else if (nick == "Hakase") {
+            } else if (hakaseRegex.test(nick)) {
                 message.channel.sendMessage("https://tinyurl.com/y4ajka9t");
+                return;
+            } else if (nanoRegex.test(nick)) {
+                message.channel.sendMessage("https://tinyurl.com/vqxzcwv");
                 return;
             }
             findUid(nick, client).then((id) => {
