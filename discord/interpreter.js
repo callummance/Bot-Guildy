@@ -27,6 +27,9 @@ module.exports.handleCom = (message, client) => {
             } else if (nanoRegex.test(nick)) {
                 message.channel.sendMessage("https://tinyurl.com/vqxzcwv");
                 return;
+            } else if (nick == "Sakamoto") {
+                message.channel.sendMessage("https://tinyurl.com/wazrt5t");
+                return;
             }
             findUid(nick, client).then((id) => {
                 if (id === -1) {
