@@ -14,7 +14,7 @@ module.exports.handleCom = (message, client) => {
     var op = command.shift();
     switch (op) {
         case "!whois":
-            var nick = command.join(' ');
+            var nick = command.join(' ').trim();
             Logger.log("info", `Now executing whois query on user ${nick}`);
             var hakaseRegex = /@?(h|H)akase$/;
             var nanoRegex = /(n|N)ano$/
