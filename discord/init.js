@@ -40,7 +40,8 @@ exports.connect = function() {
             } else if (message.cleanContent.charAt(0) == '!'){
                 Logger.log("info", "Got a command, now executing...")
                 interpreter.handleCom(message, client);
-            } else if (conf().Discord.ImageChannels.includes(message.channel.name) && message.attachments.size == 1) {
+            } else if (conf().Discord.ImageChannels.includes(message.channel.name) && message.attachments.size == 1
+                && !containsURL(message)) {
                 Logger.log("info", "Found an image in image channel")
                 image_source.searchSauceNAO(message, client);
             }
@@ -83,4 +84,8 @@ function getRoleIds(client) {
     } else {
         module.exports.admin = adminRoles[0].name;
     }
+}
+
+function containsURL(string) {
+    return new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(string);
 }
