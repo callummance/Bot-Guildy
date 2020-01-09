@@ -15,6 +15,8 @@ module.exports.interpretHakaseQuery = (client, message) => {
     } else if (message.cleanContent.toLowerCase().includes("sleep")) {
         Logger.log("info", "Received sleep request");
         message.channel.sendMessage("But I don't wanna!\nhttps://tinyurl.com/y5xmjyuo");
+    } else if (message.cleanContent.toLowerCase() == "good bot.") {
+        message.channel.sendMessage("https://tinyurl.com/y4bbtkl5");
     } else if (message.cleanContent.startsWith("Hakase is")) {
         if (containsPraiseWords(message.cleanContent) && !containsBlameWords(message.cleanContent)) {
             message.channel.sendMessage("https://tinyurl.com/y4bbtkl5");

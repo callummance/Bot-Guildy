@@ -6,7 +6,7 @@ const conf = require("../config/conf");
 const login = require("../user/auth");
 const game = require("./game");
 const interpreter = require("./interpreter");
-const hakase = require("./hakase_responses");
+const image_source = require("./image_source");
 
 exports.connect = function() {
     return new Promise(function (resolve, reject) {
@@ -40,6 +40,9 @@ exports.connect = function() {
             } else if (message.cleanContent.charAt(0) == '!'){
                 Logger.log("info", "Got a command, now executing...")
                 interpreter.handleCom(message, client);
+            } else if (conf().Discord.ImageChannels.includes(message.channel.name) && message.attachments.size == 1) {
+                Logger.log("info", "Found an image in image channel")
+                image_source.searchSauceNAO(message, client);
             }
         });
     });
