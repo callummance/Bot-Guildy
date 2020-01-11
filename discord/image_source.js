@@ -11,11 +11,11 @@ module.exports.searchSauceNAO = async (message, client) => {
     }
     pixivResult = results.find(result => result.site == 'Pixiv');
     if (pixivResult != undefined) {
-        message.channel.sendMessage("Source: " + pixivResult.url);
+        message.channel.sendMessage("Source: <" + pixivResult.url + ">");
         return;
     }
     results.sort(resultsCompareFn);
-    message.channel.sendMessage("Source: " + results[0].url);
+    message.channel.sendMessage("Source: <" + results[0].url +">");
 }
 
 function resultsCompareFn(a,b) {
