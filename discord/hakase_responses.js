@@ -23,6 +23,20 @@ module.exports.interpretHakaseQuery = (client, message) => {
         } else {
             message.channel.sendMessage("https://tinyurl.com/y2qev36j");
         }
+    } else if (message.cleanContent.toLowerCase() == "jankenpon") {
+        let clips = [
+            "https://gfycat.com/saltyunfoldedechidna",
+            "https://gfycat.com/sarcasticconsciousivorybilledwoodpecker",
+            "https://gfycat.com/heartysolidanchovy",
+            "https://gfycat.com/livetenseelephantseal",
+            "https://gfycat.com/pinkcheapgermanshorthairedpointer",
+            "https://gfycat.com/presentdefiantbantamrooster",
+        ];
+        let random = Math.floor(Math.random() * clips.length);
+        let outcome = clips[random];
+        message.channel.sendMessage(outcome);
+    } else if (message.cleanContent.toLowerCase() == "play that funky music") {
+        message.channel.sendMessage("https://youtu.be/WP6DJfhPQTg");
     } else {
         Logger.log("info", "Received unknown request. Searching Gfycat...");
         let urlQuery = encodeURI("anime " + message);
