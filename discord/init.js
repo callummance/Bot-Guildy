@@ -44,6 +44,16 @@ exports.connect = function() {
                 && !containsURL(message)) {
                 Logger.log("info", "Found an image in image channel")
                 image_source.searchSauceNAO(message, client);
+            } else if (message.cleanContent.toLowerCase().match(/(G|g)ood bot.?$/)) {
+                message.channel.fetchMessages({limit: 2})
+                .then(messageMappings => {
+                    let messages = Array.from(messageMappings.values());
+                    let previousMessage = messages[1];
+                    if (previousMessage.author.id == client.user.id) {
+                        message.channel.sendMessage("Eheheh thank you!\nhttps://tinyurl.com/w6zoctl");
+                    }
+                })
+                .catch(error => Logger.log("error", "Error fetching messages in channel"));
             }
         });
     });
