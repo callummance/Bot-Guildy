@@ -27,15 +27,31 @@ module.exports.handleCom = (message, client) => {
             } else if (nanoRegex.test(nick)) {
                 message.channel.sendMessage("https://tinyurl.com/vqxzcwv");
                 return;
-            } else if (nick == "Sakamoto") {
+            } else if (nick.match(/(S|s)akamoto/)) {
                 message.channel.sendMessage("https://tinyurl.com/wazrt5t");
                 return;
             }
-            findUid(nick, client).then((id) => {
+            findUidByNick(nick, client)
+            .then((id) => {
                 if (id === -1) {
-                    message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
-                    message.channel.sendFile("images/hakase_sad.gif")
-                        .catch(error => Logger.log("info", "Unable to find image to send"));
+                    // Perform an inverse lookup
+                    findUidByRealName(nick, client)
+                    .then((matches) => {
+                        if (matches.length == 0) {
+                            message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
+                            message.channel.sendFile("images/hakase_sad.gif")
+                                .catch(error => Logger.log("info", "Unable to find image to send"));
+                        } else if (matches.length > 1) {
+                            message.channel.sendMessage("There were multiple matches for that real name. This is disconcerting.");
+                        } else {
+                            var guild = client.guilds.get(conf().Discord.GuildId);
+                            guild.fetchMember(matches[0].id)
+                            .then((guildMember) => {
+                                message.channel.sendMessage(`${nick}'s Discord username is ${guildMember.user.username}.`);
+                            })
+                            .catch(err => Logger.log("info", "Unable to find guildMember. Error: " + err));
+                        }
+                    });
                 } else if (id === -2) {
                     message.channel.sendMessage("There were multiple matches for that nickname. This is disconcerting.");
                 } else {
@@ -83,7 +99,7 @@ module.exports.handleCom = (message, client) => {
                 }
                 message.channel.sendMessage("Command completed.");
             } else {
-                findUid(nick, client).then((id) => {
+                findUidByNick(nick, client).then((id) => {
                     if (id === -1) {
                         message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
                         return;
@@ -142,7 +158,7 @@ module.exports.handleCom = (message, client) => {
                 }
                 message.channel.sendMessage("Command completed.");
             } else {
-                findUid(nick, client).then((id) => {
+                findUidByNick(nick, client).then((id) => {
                     if (id === -1) {
                         message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
                     } else if (id === -2) {
@@ -212,7 +228,7 @@ If your roles do not change within the next hour, feel free to PM a ${conf().Dis
     }
 };
 
-function findUid(name, client) {
+function findUidByNick(name, client) {
     return new Promise((resolve, reject) => {
         var guild = client.guilds.get(conf().Discord.GuildId);
         var ulist = guild.fetchMembers();
@@ -246,6 +262,13 @@ function findChannel(channelName, client) {
         } else {
             resolve(matches.first());
         }
+    });
+}
+
+function findUidByRealName(name, client) {
+    return new Promise((resolve, reject) => {
+        let matches = auth.getNames().filter(obj => obj.name === name);
+        resolve(matches);
     });
 }
 

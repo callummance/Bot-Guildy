@@ -40,3 +40,11 @@ module.exports.deleteUser = (did) => {
         }
     });
 };
+
+module.exports.getNames = () => {
+    let names = [];
+    for (let [uid, values] of Object.entries(registeredUsers)) {
+        names.push({name: values.name, id: uid});
+    }
+    return names;
+}
