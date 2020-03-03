@@ -35,7 +35,7 @@ module.exports.handleCom = (message, client) => {
             .then((id) => {
                 if (id === -1) {
                     // Perform an inverse lookup
-                    findUidByRealName(nick, client)
+                    findUidByRealName(nick)
                     .then((matches) => {
                         if (matches.length == 0) {
                             message.channel.sendMessage(USER_NOT_FOUND_MESSAGE);
@@ -45,9 +45,9 @@ module.exports.handleCom = (message, client) => {
                             message.channel.sendMessage("There were multiple matches for that real name. This is disconcerting.");
                         } else {
                             var guild = client.guilds.get(conf().Discord.GuildId);
-                            guild.fetchMember(matches[0].id)
+                            guild.fetchMember(matches[0][0])
                             .then((guildMember) => {
-                                message.channel.sendMessage(`${nick}'s Discord username is ${guildMember.user.username}.`);
+                                message.channel.sendMessage(`${nick}'s Discord username is ${guildMember.nickname ? guildMember.nickname : guildMember.user.username}.`);
                             })
                             .catch(err => Logger.log("info", "Unable to find guildMember. Error: " + err));
                         }
@@ -265,9 +265,9 @@ function findChannel(channelName, client) {
     });
 }
 
-function findUidByRealName(name, client) {
+function findUidByRealName(name) {
     return new Promise((resolve, reject) => {
-        let matches = auth.getNames().filter(obj => obj.name === name);
+        let matches = Object.entries(auth.getUsers()).filter(entry => entry[1].name === name);
         resolve(matches);
     });
 }
