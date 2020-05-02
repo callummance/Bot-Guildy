@@ -54,6 +54,16 @@ exports.connect = function() {
                     }
                 })
                 .catch(error => Logger.log("error", "Error fetching messages in channel"));
+            } else if (message.cleanContent.toLowerCase().match(/(B|b)ad bot.?$/)) {
+                message.channel.fetchMessages({limit: 2})
+                .then(messageMappings => {
+                    let messages = Array.from(messageMappings.values());
+                    let previousMessage = messages[1];
+                    if (previousMessage.author.id == client.user.id) {
+                        message.channel.sendMessage("O-oh okay...Hakase was only trying her best. Please don't hurt Hakase. \nhttps://tinyurl.com/y95vkqar");
+                    }
+                })
+                .catch(error => Logger.log("error", "Error fetching messages in channel"));
             }
         });
     });

@@ -17,6 +17,8 @@ module.exports.interpretHakaseQuery = (client, message) => {
         message.channel.sendMessage("But I don't wanna!\nhttps://tinyurl.com/y5xmjyuo");
     } else if (message.cleanContent.toLowerCase().match(/(G|g)ood bot.?/)) {
         return;
+    } else if (message.cleanContent.toLowerCase().match(/(B|b)ad bot.?/)) {
+        return;
     } else if (message.cleanContent.startsWith("Hakase is")) {
         if (containsPraiseWords(message.cleanContent) && !containsBlameWords(message.cleanContent)) {
             message.channel.sendMessage("https://tinyurl.com/y4bbtkl5");
