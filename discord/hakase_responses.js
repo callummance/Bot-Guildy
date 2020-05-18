@@ -39,6 +39,8 @@ module.exports.interpretHakaseQuery = (client, message) => {
         message.channel.sendMessage(outcome);
     } else if (message.cleanContent.toLowerCase() == "play that funky music") {
         message.channel.sendMessage("https://youtu.be/WP6DJfhPQTg");
+    } else if (message.cleanContent.toLowerCase().match(/(Will|Is) (\w+ ?)+\?/i)) {
+        message.channel.sendMessage(yesNoResponses[Math.floor(Math.random() * yesNoResponses.length)]);
     } else {
         Logger.log("info", "Received unknown request. Searching Gfycat...");
         let urlQuery = encodeURI(message);
@@ -96,3 +98,26 @@ function containsWordsWithNoNegation(message, words) {
     }
     return false;
 }
+
+let yesNoResponses = [
+    "As I see it, yes!",
+    "Ask again later. Hakase is busy right now",
+    "Huhuhu. Better not tell you now.",
+    "Cannot predict right now. Hakase needs milk first!",
+    "Hakase can't understand such hard questions! Concentrate and ask again!",
+    "Hpmh! Don’t count on it.",
+    "It is certain. Hakase believes!",
+    "It is decidedly so desu.",
+    "Most likely desu.",
+    "My reply is no.",
+    "I asked Sakamoto and he says no.",
+    "Outlook not so good!",
+    "Outlook good!",
+    "Reply hazy, try again later!",
+    "All signs point to yes.",
+    "Very doubtful.",
+    "Without a doubt!",
+    "Yes!",
+    "Yes – definitely!",
+    "You may rely on it.",
+]
