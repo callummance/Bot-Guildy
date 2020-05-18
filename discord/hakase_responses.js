@@ -21,7 +21,7 @@ module.exports.interpretHakaseQuery = (client, message) => {
         return;
     } else if (message.cleanContent.startsWith("Hakase is")) {
         if (containsPraiseWords(message.cleanContent) && !containsBlameWords(message.cleanContent)) {
-            message.channel.sendMessage("https://tinyurl.com/y4bbtkl5");
+            message.channel.sendMessage("https://tinyurl.com/w6zoctl");
         } else {
             message.channel.sendMessage("https://tinyurl.com/y2qev36j");
         }
@@ -41,7 +41,7 @@ module.exports.interpretHakaseQuery = (client, message) => {
         message.channel.sendMessage("https://youtu.be/WP6DJfhPQTg");
     } else {
         Logger.log("info", "Received unknown request. Searching Gfycat...");
-        let urlQuery = encodeURI("anime " + message);
+        let urlQuery = encodeURI(message);
         request('https://api.gfycat.com/v1/gfycats/search?search_text=' + urlQuery, { json: true }, (err, res, body) => {
             if (err) {
                 Logger.warn(err);
@@ -49,6 +49,7 @@ module.exports.interpretHakaseQuery = (client, message) => {
                 return;
             }
             let gifs = body["gfycats"];
+            gifs.sort(gfycatSearchResultCompare);
             for (let gif of gifs) {
                 if (gif["nsfw"] == "0") {
                     message.channel.sendMessage(gif["max5mbGif"]);
@@ -60,8 +61,21 @@ module.exports.interpretHakaseQuery = (client, message) => {
     }
 }
 
+function gfycatSearchResultCompare(a, b) {
+    let aRank = parseInt(a["likes"]) + parseInt(a["views"])
+    let bRank = parseInt(b["likes"]) + parseInt(b["views"])
+    if (aRank > bRank) {
+        return -1;
+    } else if (aRank < bRank) {
+        return 1;
+    } else {
+        return 0;
+    }
+
+}
+
 function containsPraiseWords(message) {
-    const praiseWords = ["cute", "kawaii", "good", "great", "amazing", "excellent"];
+    const praiseWords = ["cute", "kawaii", "good", "great", "amazing", "excellent", "the best"];
     return containsWordsWithNoNegation(message, praiseWords);
 }
 
