@@ -15,6 +15,9 @@ module.exports.interpretHakaseQuery = (client, message) => {
     } else if (message.cleanContent.toLowerCase().includes("sleep")) {
         Logger.log("info", "Received sleep request");
         message.channel.sendMessage("But I don't wanna!\nhttps://tinyurl.com/y5xmjyuo");
+    } else if (message.cleanContent.toLowerCase() == "have a roll cake") {
+        Logger.log("info", "Received roll cake request");
+        message.channel.sendMessage("Thank you!\nhttps://tinyurl.com/y8h4docz");
     } else if (message.cleanContent.toLowerCase().match(/(G|g)ood bot.?/)) {
         return;
     } else if (message.cleanContent.toLowerCase().match(/(B|b)ad bot.?/)) {
