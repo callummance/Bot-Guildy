@@ -23,8 +23,9 @@ module.exports.interpretHakaseQuery = (client, message) => {
     } else if (message.cleanContent.toLowerCase().match(/(B|b)ad bot.?/)) {
         return;
     } else if (message.cleanContent.startsWith("Hakase is")) {
-        if (containsPraiseWords(message.cleanContent) && !containsBlameWords(message.cleanContent)) {
-            message.channel.sendMessage("https://tinyurl.com/w6zoctl");
+        if (containsPraiseWords(message.cleanContent) && !containsBlameWords(message.cleanContent) ||
+            containsPraisePhrases(message.cleanContent)) {
+            message.channel.sendMessage("Ehehehe~ your praise making me blush.\nhttps://tinyurl.com/w6zoctl");
         } else {
             message.channel.sendMessage("https://tinyurl.com/y2qev36j");
         }
@@ -79,8 +80,20 @@ function gfycatSearchResultCompare(a, b) {
 
 }
 
+function containsPraisePhrases(message) {
+    const praisePhrases = ["the best", "best girl", "best waifu"];
+    let messageWords = message.toLowerCase().split(" ");
+    let desc = messageWords.slice(2).join(" ");
+    for (praisePhrase of praisePhrases) {
+        if (desc.match(new RegExp(praisePhrase + "!\?"))) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function containsPraiseWords(message) {
-    const praiseWords = ["cute", "kawaii", "good", "great", "amazing", "excellent", "the best"];
+    const praiseWords = ["cute", "kawaii", "good", "great", "amazing", "excellent"];
     return containsWordsWithNoNegation(message, praiseWords);
 }
 
