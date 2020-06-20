@@ -5,7 +5,7 @@ module.exports.searchSauceNAO = async (message, client) => {
     const sauceNAO = sagiri(conf().SauceNAO.apikey);
     const image = message.attachments.first();
     let results = await sauceNAO(image.url, { mask: [5, 6, 9, 18, 34]} );
-    results = results.filter(result => result.similarity > 90);
+    results = results.filter(result => result.similarity >= 85);
     if (results.length == 0) {
         return;
     }
