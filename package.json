@@ -6,7 +6,7 @@
     "start": "node ./botguildy.js"
   },
   "dependencies": {
-    "debug": "~2.2.0",
+    "debug": "~2.6.9",
     "discord.js": "^10.0.1",
     "node-schedule": "^1.2.0",
     "open": "0.0.5",
